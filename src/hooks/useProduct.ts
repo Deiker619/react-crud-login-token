@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export const useProduct = () => {
   const url = "http://127.0.0.1:8000/api/";
   const [products, setProducts] = useState<Product[]>([]);
-
   const [isSaved, setIssaved] = useState<boolean>(false);
   const navigate = useNavigate();
 
