@@ -10,7 +10,7 @@ export const Dashboard = ()=>{
         </nav>
       </header>
       <main className='mx-auto container'>
-        <Outlet /> {/* 👈 Aquí se insertan las rutas hijas */}
+        <Outlet /> 
       </main>
     </div>
   );

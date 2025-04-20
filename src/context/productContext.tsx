@@ -7,8 +7,8 @@ interface ProductContextType {
     onRegisterProduct: (product: Product) => void;
     onDeleteProduct: (id: Product['id']) => void
     onGetProducts: ()=>void,
-    onUpdateProduct: (product: Product)=>void
-    onGetProduct: (id: Product['id']) => Promise<Product | undefined>
+    onUpdateProduct: (product: Pick<Product, 'nameProduct' | 'price'>, id:number | undefined)=>void,
+    onGetProduct: (id: Product['id']) => Product | undefined
   }
   
 const ProductContext = createContext<ProductContextType | null>(null)

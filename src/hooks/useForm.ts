@@ -2,12 +2,9 @@ import { useState } from "react";
 import { Product } from "../interfaces/Product";
 import { useProductContext } from "../context/productContext";
 
-export const useForm = () => {
-  const { onRegisterProduct, products } = useProductContext();
-  const initialValue: Pick<Product, "nameProduct" | "price"> = {
-    nameProduct: "",
-    price: 0,
-  };
+export const useForm = (initialValue:Pick<Product, 'nameProduct' | 'price'>) => {
+  const { onRegisterProduct,onUpdateProduct , products } = useProductContext();
+  
 
   const [product, setProduct] =
     useState<Pick<Product, "nameProduct" | "price">>(initialValue);
@@ -16,16 +13,22 @@ export const useForm = () => {
     setProduct((prevstate) => ({ ...prevstate, [target]: value }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>, id:number | undefined) => {
     event.preventDefault();
-    const saveProduct = {
-      ...product,
-      id: products.length + 1,
-      category_id: 1,
-      description: "producto desde react",
-    };
-    onRegisterProduct(saveProduct);
 
+    if(!id){
+      const saveProduct = {
+        ...product,
+        id: products.length + 1,
+        category_id: 1,
+        description: "producto desde react",
+      };
+      onRegisterProduct(saveProduct);
+
+    }
+
+
+    onUpdateProduct(product, id)
     setProduct(initialValue);
   };
 

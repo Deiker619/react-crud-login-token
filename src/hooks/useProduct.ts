@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const useProduct = () => {
   const url = "http://127.0.0.1:8000/api/";
   const [products, setProducts] = useState<Product[]>([]);
-  
+
   const [isSaved, setIssaved] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -51,13 +51,13 @@ export const useProduct = () => {
         "Content-Type": "application/json",
       },
     });
-    //  const data = await response.json();
+    const data = await response.json();
     if (response.ok) {
       setIssaved(!isSaved);
-      return toast.success("Producto registrado");
+      return toast.success(`Producto ${product.nameProduct} registrado`);
     }
 
-    //  console.log(data);
+    console.log(data);
   };
 
   const onDeleteProduct = async (id: Product["id"]) => {
@@ -78,8 +78,22 @@ export const useProduct = () => {
     }
   };
 
-  const onUpdateProduct = (product: Product) => {
+  const onUpdateProduct = async (product: Pick<Product, 'nameProduct' | 'price' >, id:number | undefined) => {
     console.log("Update", product);
+
+    const response = await fetch(`${url}product_update/${id}`, {
+      body: JSON.stringify(product),
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if(response.ok){
+      toast.success(`Producto ${product.nameProduct} modificado`)
+      setIssaved(!isSaved);
+    }
+    const data = await response.json()
+    console.log(data)
   };
 
   useEffect(() => {

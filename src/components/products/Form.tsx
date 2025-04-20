@@ -1,30 +1,39 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { useEffect } from "react";
+import { useEffect, /* useState */ } from "react";
 import { useProductContext } from "../../context/productContext";
+import { Product } from "../../interfaces/Product";
 
 export const Form = () => {
+  const initialValue: Pick<Product, "nameProduct" | "price"> = {
+    nameProduct: "",
+    price: 0,
+  };
   const { id } = useParams();
-  const { onSubmit, updatedInput, onLoadProduct, product } = useForm();
+  const { onSubmit, updatedInput, onLoadProduct, product } = useForm(initialValue);
   const { onGetProduct } = useProductContext();
-  //const [isEditionMode, setisEditionMode] = useState<Boolean>(false);
+/*   const [isEditionMode, setisEditionMode] = useState<boolean>(false); */
 
   useEffect(() => {
     load();
-  }, []);
+  }, [id]);
 
   const load = async () => {
     if (id) {
+      console.log('id', id)
       const data = await onGetProduct(+id);
       if (data) {
-      //  console.log(data);
+        console.log(data);
         onLoadProduct(data);
       }
       
+    }else{
+      console.log('ID', id)
+      onLoadProduct({nameProduct: '', price: 0} as Product);
     }
   };
   return (
-    <form className="max-w-sm mx-auto" onSubmit={onSubmit}>
+    <form className="max-w-sm mx-auto" onSubmit={(e)=>onSubmit(e, id ? +id : undefined)}>
       <div className="mb-5">
         <label
           htmlFor="name"
