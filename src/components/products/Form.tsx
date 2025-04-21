@@ -21,7 +21,7 @@ export const Form = () => {
   const load = async () => {
     if (id) {
       console.log('id', id)
-      const data = await onGetProduct(+id);
+      const data = await onGetProduct(+id); //EL await es importante para que se espere a que se complete la funcion ongetproduct
       if (data) {
         console.log(data);
         onLoadProduct(data);
